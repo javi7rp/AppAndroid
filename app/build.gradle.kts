@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -74,6 +75,10 @@ dependencies {
     implementation("pub.devrel:easypermissions:3.0.0")
 
     implementation("com.google.android.material:material:1.0.0")
+
+    implementation("androidx.room:room-runtime:2.4.0")
+    kapt("androidx.room:room-compiler:2.4.0")
+
 
 
     implementation ("com.github.bumptech.glide:glide:4.12.0")
