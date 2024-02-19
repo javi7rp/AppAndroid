@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.FragmentPerfil"
+    android:background="@color/fondo_app">
+
+    <ImageView
+        android:id="@+id/ivProfilePicture"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/perfil_javi"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="100dp"/>
+
+    <TextView
+        android:id="@+id/txtUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivProfilePicture"
+        android:layout_centerHorizontal="true"
+        android:text="Javi Redondo"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/txtUserAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtUserName"
+        android:layout_centerHorizontal="true"
+        android:text="22 "
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/txtUserEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtUserAge"
+        android:layout_centerHorizontal="true"
+        android:text="correo@ejemplo.com"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnEditarPerfil"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="Editar Perfil"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnEditFoto"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Cambiar Foto Perfil"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/txtInstaUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnInstagram"
+        android:text="Javi_Redondo7"
+        android:textStyle="bold"
+        android:layout_marginStart="40dp"/>
+
+    <ImageButton
+        android:id="@+id/btnInstagram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/instagram"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="100dp"
+        android:layout_marginTop="16dp"
+        android:background="@null"/>
+
+    <TextView
+        android:id="@+id/txtPreguntas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnPreguntas"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:text="Juego Preguntas"
+        android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/btnPreguntas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/juego_preguntas"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="100dp"
+        android:layout_marginTop="16dp"
+        android:background="@null"/>
+
+    <TextView
+        android:id="@+id/recordPreguntas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="70dp"
+        android:text="PRIMER INTENTO: 7/10"
+        android:visibility="invisible"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

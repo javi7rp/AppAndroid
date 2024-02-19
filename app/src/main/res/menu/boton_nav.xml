@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_inicio"
+        android:icon="@drawable/casa"
+        android:title="Inicio"
+        android:background="@drawable/bg_nav_inicio"/>
+    <item
+        android:id="@+id/nav_notas"
+        android:icon="@drawable/notas"
+        android:title="Notas"
+        android:background="@drawable/bg_nav_notas"/>
+    <item
+        android:id="@+id/nav_fav"
+        android:icon="@drawable/no_fav"
+        android:title="Fav"
+        android:background="@drawable/bg_nav_fav"/>
+    <item
+        android:id="@+id/nav_perfil"
+        android:icon="@drawable/usuario"
+        android:title="Perfil"
+        android:background="@drawable/bg_nav_perfil"/>
+
+</menu>

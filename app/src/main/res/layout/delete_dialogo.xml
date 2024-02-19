@@ -1,0 +1,32 @@
+<!-- res/layout/dialog_delete_confirmation.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/text_delete_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Eliminar Juego"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:paddingBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/text_delete_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Deseas eliminar el juego:"
+        android:paddingBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/text_game_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre del Juego"
+        android:textStyle="bold"
+        android:paddingBottom="16dp"/>
+
+</LinearLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.fragment_notes.InsigniasFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+
+            <ImageButton
+                android:id="@+id/insignia1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/insignia"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/insignia1"
+                android:text="COLECCION"
+                android:textSize="20dp"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+
+            <ImageButton
+                android:id="@+id/insignia2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/insignia"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/insignia2"
+                android:text="PREGUNTAS"
+                android:textSize="20dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+
+             <ImageButton
+                 android:id="@+id/insignia3"
+                 android:layout_width="match_parent"
+                 android:layout_height="200dp"
+                 android:src="@drawable/insignia"/>
+
+             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/insignia3"
+                 android:text="REWARD DIARIA"
+                 android:textSize="20dp"
+                 android:gravity="center"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>
