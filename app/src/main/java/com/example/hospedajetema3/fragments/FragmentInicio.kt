@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hospedajetema3.R
-import com.example.hospedajetema3.adapter.AdapterJuego
 import com.example.hospedajetema3.databinding.FragmentInicioBinding
 import com.example.hospedajetema3.viewModel.JuegoViewModel
 

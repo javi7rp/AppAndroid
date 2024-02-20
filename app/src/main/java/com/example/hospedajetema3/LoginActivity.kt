@@ -14,15 +14,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hospedajetema3.dialogues.DialogCallback
-import com.example.hospedajetema3.interfaces.UserManager
 import com.example.hospedajetema3.models.Usuario
 import com.example.hospedajetema3.objects_models.ListaUser
-import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity(), DialogCallback {
-
-    @Inject
-    lateinit var userManager: UserManager //inyeccion
 
     private lateinit var userEditText: EditText
     private lateinit var passwordEditText: EditText
@@ -87,7 +82,7 @@ class LoginActivity : AppCompatActivity(), DialogCallback {
             val user = userEditText.text.toString()
             val password = passwordEditText.text.toString()
 
-            if (userManager.loginUser(user, password)) {
+            if (ListaUser.verificarUsuario(Usuario(user,password))) {
                 saveUserCredenciales(user, password)
                 setLoggedIn(true)
 

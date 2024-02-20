@@ -130,11 +130,6 @@ class MainActivity : AppCompatActivity() {
         //System.exit(0)
     }
 
-
-
-
-
-
     //metodo con hide y show()
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var fragmentInicio: FragmentInicio
