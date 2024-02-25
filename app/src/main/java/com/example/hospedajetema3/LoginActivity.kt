@@ -1,6 +1,6 @@
 package com.example.hospedajetema3
 
-
+/*
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -30,7 +30,6 @@ class LoginActivity : AppCompatActivity(), DialogCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pantalla_inicio_sesion)
 
-        //DaggerMyComponent.create().inject(this)
 
         sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE)
 
@@ -56,7 +55,7 @@ class LoginActivity : AppCompatActivity(), DialogCallback {
     }
 
     private fun setupListeners() {
-        /*
+
         iniciarSesionButton.setOnClickListener {
             val user = userEditText.text.toString()
             val password = passwordEditText.text.toString()
@@ -69,27 +68,6 @@ class LoginActivity : AppCompatActivity(), DialogCallback {
                 startActivity(intent)
                 finish()
             }else {
-                Toast.makeText(this, "USUARIO NO REGISTRADO o CAMPOS NO RELLENADOS", Toast.LENGTH_SHORT).show()
-            }
-        }
-        registrarseButton.setOnClickListener {
-            mostrarDialogoRegistro()
-        }
-
-         */
-//----------------------inyeccion------------------------
-        iniciarSesionButton.setOnClickListener {
-            val user = userEditText.text.toString()
-            val password = passwordEditText.text.toString()
-
-            if (ListaUser.verificarUsuario(Usuario(user,password))) {
-                saveUserCredenciales(user, password)
-                setLoggedIn(true)
-
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            } else {
                 Toast.makeText(this, "USUARIO NO REGISTRADO o CAMPOS NO RELLENADOS", Toast.LENGTH_SHORT).show()
             }
         }
@@ -173,4 +151,68 @@ class LoginActivity : AppCompatActivity(), DialogCallback {
 
 
 
+} */
+
+//----------------------------------ROOM-------------------------------
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
+import com.example.hospedajetema3.room.AppDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
+class LoginActivity : AppCompatActivity() {
+
+    private lateinit var userEditText: EditText
+    private lateinit var passwordEditText: EditText
+    private lateinit var iniciarSesionButton: Button
+    private lateinit var registrarseButton: Button
+    private lateinit var db: AppDatabase
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.pantalla_inicio_sesion)
+
+        db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "my-database").build()
+
+        initViews()
+        setupListeners()
+    }
+
+    private fun initViews() {
+        userEditText = findViewById(R.id.user)
+        passwordEditText = findViewById(R.id.password)
+        iniciarSesionButton = findViewById(R.id.iniciarSesion)
+        registrarseButton = findViewById(R.id.registrarse)
+    }
+
+    private fun setupListeners() {
+        iniciarSesionButton.setOnClickListener {
+            val user = userEditText.text.toString()
+            val password = passwordEditText.text.toString()
+
+            GlobalScope.launch(Dispatchers.IO) {
+                val currentUser = db.userDao().getUser(user, password)
+                if (currentUser != null) {
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    finish()
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(this@LoginActivity, "Credenciales inválidas", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+
+        registrarseButton.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
+    }
 }
+

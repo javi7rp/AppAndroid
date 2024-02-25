@@ -8,19 +8,22 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import com.example.hospedajetema3.R
-//inyeccion
 
+//inyeccion
+/*
 import com.example.hospedajetema3.interfaces.MyInyect
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint
+@AndroidEntryPoint*/
 
 
 class OtherFragment : Fragment() {
-
+/*
     @Inject
     lateinit var myInyect: MyInyect
+
+ */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +40,8 @@ class OtherFragment : Fragment() {
         val btnInject = view.findViewById<Button>(R.id.btnInject)
 
         btnInject.setOnClickListener {
-            myInyect.doSomething()
+            //myInyect.doSomething(this)
+            Toast.makeText(context, "BOTON PULSADO", Toast.LENGTH_SHORT).show()
         }
     }
 }
