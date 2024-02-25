@@ -20,6 +20,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var registrarButton: Button
     private lateinit var db: AppDatabase
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
