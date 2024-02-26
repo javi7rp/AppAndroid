@@ -53,7 +53,7 @@ class RegisterActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO) {
             val existingUser = db.userDao().getUser(user, password)
             if (existingUser == null) {
-                db.userDao().insert(User(0, user, password))
+                db.userDao().insert(User(username = user, password = password))
                 runOnUiThread {
                     Toast.makeText(this@RegisterActivity, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show()
                     finish()

@@ -23,7 +23,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.hospedajetema3.GameActivity
 import com.example.hospedajetema3.R
-import pub.devrel.easypermissions.EasyPermissions
+//import pub.devrel.easypermissions.EasyPermissions
 
 class FragmentPerfil : Fragment() {
 
@@ -222,7 +222,7 @@ class FragmentPerfil : Fragment() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+        //EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
     private fun openGallery() {
@@ -236,7 +236,7 @@ class FragmentPerfil : Fragment() {
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
             android.Manifest.permission.READ_EXTERNAL_STORAGE
         )
-
+/*
         if (EasyPermissions.hasPermissions(requireContext(), *perms)) {
             // Tienes permisos, abre la cámara
             showImageSourceDialog()
@@ -246,6 +246,8 @@ class FragmentPerfil : Fragment() {
             Log.d("IIIIIIIIIIIII","no tiene permisos")
             requestCameraAndStoragePermissions()
         }
+
+ */
     }
 
     private fun requestCameraAndStoragePermissions() {

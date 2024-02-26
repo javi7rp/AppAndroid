@@ -1,5 +1,6 @@
 package com.example.hospedajetema3.fragments.fragment_notes
 
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,22 +9,20 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import com.example.hospedajetema3.R
+//import com.example.hospedajetema3.interfaces.MyInject
 
 //inyeccion
-/*
-import com.example.hospedajetema3.interfaces.MyInyect
+
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint*/
-
-
+//@AndroidEntryPoint
 class OtherFragment : Fragment() {
-/*
-    @Inject
-    lateinit var myInyect: MyInyect
 
- */
+   //@Inject
+    //lateinit var myInjectt: MyInject
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +39,7 @@ class OtherFragment : Fragment() {
         val btnInject = view.findViewById<Button>(R.id.btnInject)
 
         btnInject.setOnClickListener {
-            //myInyect.doSomething(this)
+           // myInjectt.doSomething(requireContext())
             Toast.makeText(context, "BOTON PULSADO", Toast.LENGTH_SHORT).show()
         }
     }

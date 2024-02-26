@@ -6,7 +6,7 @@ import androidx.room.Query
 
 @Dao
 interface UserDao {
-    @Query("SELECT * FROM users WHERE username = :username AND password = :password")
+    @Query(value = "SELECT * FROM users WHERE username = :username AND password = :password")
     fun getUser(username: String, password: String): User?
 
     @Insert

@@ -1,16 +1,17 @@
 import android.content.Context
 import android.widget.Toast
-//import javax.inject.Inject
+import javax.inject.Inject
 
-interface MyInject {
+
+interface MyInjectt {
     fun doSomething(context: Context)
 }
-/*
-class MyInjectImpl @Inject constructor() : MyInject {
+
+class MyInjectImpl @Inject constructor() : MyInjectt {
     override fun doSomething(context: Context) {
-        Toast.makeText(context, "USUARIO NO REGISTRADO o CAMPOS NO RELLENADOS", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "BOTON PULSADO", Toast.LENGTH_SHORT).show()
     }
 }
 
 
- */
+
