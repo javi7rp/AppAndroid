@@ -155,7 +155,9 @@ class LoginActivity : AppCompatActivity(), DialogCallback {
 
 //----------------------------------ROOM-------------------------------
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -174,12 +176,14 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var iniciarSesionButton: Button
     private lateinit var registrarseButton: Button
     private lateinit var db: AppDatabase
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pantalla_inicio_sesion)
 
         db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "my-database").build()
+        sharedPreferences = getSharedPreferences("datosUser", Context.MODE_PRIVATE)
 
         initViews()
         setupListeners()
@@ -200,6 +204,11 @@ class LoginActivity : AppCompatActivity() {
             GlobalScope.launch(Dispatchers.IO) {
                 val currentUser = db.userDao().getUser(user, password)
                 if (currentUser != null) {
+                    sharedPreferences.edit().apply {
+                        putString("USER", user)
+                        putString("PASSWORD", password)
+                        apply()
+                    }
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     finish()
                 } else {
@@ -211,7 +220,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         registrarseButton.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+            startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
     }
 }

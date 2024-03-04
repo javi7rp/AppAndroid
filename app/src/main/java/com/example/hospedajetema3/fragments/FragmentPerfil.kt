@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -21,8 +22,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.room.Room
 import com.example.hospedajetema3.GameActivity
 import com.example.hospedajetema3.R
+import com.example.hospedajetema3.room.*
+
 //import pub.devrel.easypermissions.EasyPermissions
 
 class FragmentPerfil : Fragment() {
@@ -49,6 +53,9 @@ class FragmentPerfil : Fragment() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
+    //private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var db: AppDatabase
+
     private lateinit var txtRecordPreguntas: TextView
     var isResultadoActualizado = false
 
@@ -70,6 +77,10 @@ class FragmentPerfil : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_perfil, container, false)
 
+        db = Room.databaseBuilder(requireContext(), AppDatabase::class.java, "my-database").build()
+        sharedPreferences = requireActivity().getSharedPreferences("datosUser", Context.MODE_PRIVATE)
+
+
         btnPreguntas = view.findViewById(R.id.btnPreguntas)
         txtRecordPreguntas = view.findViewById(R.id.recordPreguntas)
         btnInstagram = view.findViewById(R.id.btnInstagram)
@@ -80,9 +91,7 @@ class FragmentPerfil : Fragment() {
 
         ivProfilePicture = view.findViewById(R.id.ivProfilePicture)
 
-        val sharedPref = requireActivity().getSharedPreferences("Preferences", Context.MODE_PRIVATE)
-        val user = sharedPref.getString("USER", "")
-        txtUserName.setText(user)
+        updateUIWithUserData()
 
 
         // Configura el listener para el clic del botón
@@ -121,6 +130,25 @@ class FragmentPerfil : Fragment() {
             startActivity(intent)
         }
         return view
+    }
+
+    private fun updateUIWithUserData() {
+        // Obtiene el nombre de usuario y la contraseña del usuario actual
+        val user: String = sharedPreferences.getString("USER", "") ?: ""
+        val password: String = sharedPreferences.getString("PASSWORD", "") ?: ""
+
+        // Obtiene los datos del usuario desde la base de datos
+        val currentUser = db.userDao().getUser(user, password)
+
+        // Verifica si el usuario no es nulo antes de actualizar la interfaz de usuario
+        currentUser?.let {
+            txtUserName.text = currentUser.username
+            txtUserAge.text = currentUser.edad.toString()
+            txtUserEmail.text = currentUser.email
+            txtInstaUser.text = currentUser.instagram
+            val bitmap = currentUser.image?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
+            ivProfilePicture.setImageBitmap(bitmap)
+        }
     }
 
     private fun mostrarDialogoEditarPerfil() {
