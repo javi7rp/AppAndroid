@@ -164,7 +164,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
-import com.example.hospedajetema3.room.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -175,15 +174,11 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var iniciarSesionButton: Button
     private lateinit var registrarseButton: Button
-    private lateinit var db: AppDatabase
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pantalla_inicio_sesion)
-
-        db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "my-database").build()
-        sharedPreferences = getSharedPreferences("datosUser", Context.MODE_PRIVATE)
 
         initViews()
         setupListeners()
@@ -198,25 +193,46 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         iniciarSesionButton.setOnClickListener {
-            val user = userEditText.text.toString()
+            val email = userEditText.text.toString()
             val password = passwordEditText.text.toString()
 
-            GlobalScope.launch(Dispatchers.IO) {
-                val currentUser = db.userDao().getUser(user, password)
-                if (currentUser != null) {
-                    sharedPreferences.edit().apply {
-                        putString("USER", user)
-                        putString("PASSWORD", password)
-                        apply()
-                    }
-                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                    finish()
-                } else {
-                    runOnUiThread {
-                        Toast.makeText(this@LoginActivity, "Credenciales inválidas", Toast.LENGTH_SHORT).show()
+            val endpointUrl = "http://localhost/api-juegos/endp/auth"
+
+            // Llamar a la tarea AsyncTask para enviar la solicitud POST
+            val httpPostTask = HttpPostTask(object : HttpPostTask.OnTaskCompleted {
+                override fun onTaskCompleted(result: String) {
+                    // Aquí manejas la respuesta del servidor
+                    if (result.isNotEmpty()) {
+                        // Verificar la respuesta del servidor
+                        if (result.contains("token")) {
+                            // Si la respuesta contiene "token", el inicio de sesión fue exitoso
+                            // Guardar el token en SharedPreferences u otro almacenamiento seguro
+                            sharedPreferences.edit().putString("token", result).apply()
+
+                            // Redirigir a la actividad principal u otra actividad que desees
+                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                            finish() // Terminar la actividad actual
+                        } else {
+                            // Si la respuesta no contiene "token", muestra un mensaje de error
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Inicio de sesión fallido. Verifica tus credenciales.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        // Si no hay respuesta del servidor, muestra un mensaje de error
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Error de conexión. Inténtalo de nuevo más tarde.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-            }
+            })
+
+            // Ejecutar la tarea AsyncTask para realizar la solicitud POST
+            httpPostTask.execute(endpointUrl, email, password)
         }
 
         registrarseButton.setOnClickListener {

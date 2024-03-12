@@ -16,11 +16,8 @@ import com.example.hospedajetema3.R
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-//@AndroidEntryPoint
 class OtherFragment : Fragment() {
 
-   //@Inject
-    //lateinit var myInjectt: MyInject
 
 
 

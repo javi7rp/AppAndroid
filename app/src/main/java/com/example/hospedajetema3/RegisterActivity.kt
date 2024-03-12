@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -15,8 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.room.Room
 import com.example.hospedajetema3.R
-import com.example.hospedajetema3.room.AppDatabase
-import com.example.hospedajetema3.room.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -34,7 +33,6 @@ class RegisterActivity : AppCompatActivity()  {
     private lateinit var imageView: ImageView
     private lateinit var btnCancelar: Button
     private lateinit var btnRegistrar: Button
-    private lateinit var db: AppDatabase
 
     private val CAMERA_REQUEST_CODE = 123
     private val RC_PICK_IMAGE = 125
@@ -54,7 +52,6 @@ class RegisterActivity : AppCompatActivity()  {
         btnCancelar = findViewById(R.id.btnCancelar)
         btnRegistrar = findViewById(R.id.btnRegistrar)
 
-        db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "my-database").build()
 
         btnSeleccionarImagen.setOnClickListener {
             showImageSourceDialog()
@@ -70,16 +67,7 @@ class RegisterActivity : AppCompatActivity()  {
 
             if (usuario.isNotEmpty() && contraseña.isNotEmpty() && nombre.isNotEmpty() &&
                 edad > 0 && email.isNotEmpty() && instagram.isNotEmpty()) {
-                val newUser = User(
-                    username = usuario,
-                    password = contraseña,
-                    nombre = nombre,
-                    edad = edad,
-                    email = email,
-                    instagram = instagram,
-                    image = bitmapToByteArray(imageView.drawable.toBitmap())
-                )
-                insertUser(newUser)
+
             } else {
                 Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
             }
@@ -87,23 +75,6 @@ class RegisterActivity : AppCompatActivity()  {
 
         btnCancelar.setOnClickListener {
             finish()
-        }
-    }
-
-    private fun insertUser(user: User) {
-        GlobalScope.launch(Dispatchers.IO) {
-            val existingUser = db.userDao().getUser(user.username, user.password)
-            if (existingUser == null) {
-                db.userDao().insert(user)
-                runOnUiThread {
-                    Toast.makeText(this@RegisterActivity, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show()
-                    finish()
-                }
-            } else {
-                runOnUiThread {
-                    Toast.makeText(this@RegisterActivity, "El usuario ya existe", Toast.LENGTH_SHORT).show()
-                }
-            }
         }
     }
 

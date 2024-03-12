@@ -51,10 +51,7 @@ class FragmentPerfil : Fragment() {
     private lateinit var btnCancel: Button
     private lateinit var btnBorrarDatos: Button
 
-    private lateinit var sharedPreferences: SharedPreferences
 
-    //private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var db: AppDatabase
 
     private lateinit var txtRecordPreguntas: TextView
     var isResultadoActualizado = false
@@ -77,8 +74,6 @@ class FragmentPerfil : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_perfil, container, false)
 
-        db = Room.databaseBuilder(requireContext(), AppDatabase::class.java, "my-database").build()
-        sharedPreferences = requireActivity().getSharedPreferences("datosUser", Context.MODE_PRIVATE)
 
 
         btnPreguntas = view.findViewById(R.id.btnPreguntas)
@@ -133,6 +128,7 @@ class FragmentPerfil : Fragment() {
     }
 
     private fun updateUIWithUserData() {
+        /*
         // Obtiene el nombre de usuario y la contraseña del usuario actual
         val user: String = sharedPreferences.getString("USER", "") ?: ""
         val password: String = sharedPreferences.getString("PASSWORD", "") ?: ""
@@ -149,6 +145,8 @@ class FragmentPerfil : Fragment() {
             val bitmap = currentUser.image?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
             ivProfilePicture.setImageBitmap(bitmap)
         }
+
+         */
     }
 
     private fun mostrarDialogoEditarPerfil() {
