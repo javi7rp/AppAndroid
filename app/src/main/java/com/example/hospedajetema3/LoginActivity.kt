@@ -163,10 +163,16 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
+import com.example.hospedajetema3.data.DatabaseUsuarioEntity
+import com.example.hospedajetema3.data.UsuarioEntityDao
+import com.example.hospedajetema3.models.Preferencias
+import com.example.hospedajetema3.retrofit.ApiService
+import com.example.hospedajetema3.retrofit.RequestLoginUser
+import com.example.hospedajetema3.retrofit.RetrofitModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
 
@@ -174,18 +180,33 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var iniciarSesionButton: Button
     private lateinit var registrarseButton: Button
-    private lateinit var sharedPreferences: SharedPreferences
+    lateinit var database : DatabaseUsuarioEntity
+    private lateinit var apiService: ApiService
+    lateinit var dao : UsuarioEntityDao
+    private lateinit var preferencias: Preferencias
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pantalla_inicio_sesion)
+        database = DatabaseUsuarioEntity.getDatabase(applicationContext);
+        dao = database.usuarioEntityDao()
+        preferencias = Preferencias(this)
+        apiService = RetrofitModule.apiService
+
+        if(preferencias.logueado() == true){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+
 
         initViews()
         setupListeners()
     }
 
     private fun initViews() {
-        userEditText = findViewById(R.id.user)
+        userEditText = findViewById(R.id.email)
         passwordEditText = findViewById(R.id.password)
         iniciarSesionButton = findViewById(R.id.iniciarSesion)
         registrarseButton = findViewById(R.id.registrarse)
@@ -193,46 +214,30 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         iniciarSesionButton.setOnClickListener {
-            val email = userEditText.text.toString()
-            val password = passwordEditText.text.toString()
+            val email: String = userEditText.text.toString()
 
-            val endpointUrl = "http://localhost/api-juegos/endp/auth"
+            val password: String = passwordEditText.text.toString()
 
-            // Llamar a la tarea AsyncTask para enviar la solicitud POST
-            val httpPostTask = HttpPostTask(object : HttpPostTask.OnTaskCompleted {
-                override fun onTaskCompleted(result: String) {
-                    // Aquí manejas la respuesta del servidor
-                    if (result.isNotEmpty()) {
-                        // Verificar la respuesta del servidor
-                        if (result.contains("token")) {
-                            // Si la respuesta contiene "token", el inicio de sesión fue exitoso
-                            // Guardar el token en SharedPreferences u otro almacenamiento seguro
-                            sharedPreferences.edit().putString("token", result).apply()
+            GlobalScope.launch(Dispatchers.IO) {
+                val response = withContext(Dispatchers.IO) {
+                    RetrofitModule.apiService.auth(RequestLoginUser(email, password))
+                }
 
-                            // Redirigir a la actividad principal u otra actividad que desees
-                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                            finish() // Terminar la actividad actual
-                        } else {
-                            // Si la respuesta no contiene "token", muestra un mensaje de error
-                            Toast.makeText(
-                                this@LoginActivity,
-                                "Inicio de sesión fallido. Verifica tus credenciales.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    } else {
-                        // Si no hay respuesta del servidor, muestra un mensaje de error
-                        Toast.makeText(
-                            this@LoginActivity,
-                            "Error de conexión. Inténtalo de nuevo más tarde.",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                if (response.isSuccessful && response.body()?.result == "ok") {
+                    withContext(Dispatchers.Main) {
+                        //preferencias.guardarUsuarioToken(response.body()!!.token);
+                        Toast.makeText(applicationContext, "token: " + response.body()!!.token, Toast.LENGTH_LONG).show()
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(applicationContext, "EMAIL O CONTRASEÑA INCORRECTA", Toast.LENGTH_LONG).show()
                     }
                 }
-            })
+            }
 
-            // Ejecutar la tarea AsyncTask para realizar la solicitud POST
-            httpPostTask.execute(endpointUrl, email, password)
         }
 
         registrarseButton.setOnClickListener {

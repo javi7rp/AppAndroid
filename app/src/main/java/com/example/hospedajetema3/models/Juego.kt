@@ -2,14 +2,13 @@ package com.example.hospedajetema3.models
 
 class Juego (
     var id: String,
-    var name: String,
+    var nombre: String,
     var plataforma: String,
     var anno: String,
     var nota: String,
-    var image: String,
-    //var isFav: Boolean = false
+    var imagen: String,
 ) {
     override fun toString(): String {
-        return "Juego(id='$id',  name='$name', plataforma='$plataforma', anno='$anno', nota='$nota', image='$image')" //, fav='$isFav')"
+        return "Juego(id='$id', nombre='$nombre', plataforma='$plataforma', anno='$anno', nota='$nota', imagen='$imagen')"
     }
 }

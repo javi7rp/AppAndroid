@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import com.example.hospedajetema3.fragments.FragmentFav
 import com.example.hospedajetema3.fragments.FragmentInicio
 import com.example.hospedajetema3.fragments.FragmentPerfil
+import com.example.hospedajetema3.models.Preferencias
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -117,17 +118,17 @@ class MainActivity : AppCompatActivity() {
         builder.show()
     }
     private fun exitApp() {
-        val editor = sharedPreferences.edit()
-        editor.clear()
-        editor.apply()
+
+        val preferencias = Preferencias(this)
+
+        // Borra las preferencias
+        preferencias.borrarPreferencias()
 
 
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
 
-
-        //System.exit(0)
     }
 
     //metodo con hide y show()

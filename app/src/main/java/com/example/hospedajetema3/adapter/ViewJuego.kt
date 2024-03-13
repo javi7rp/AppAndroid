@@ -27,12 +27,12 @@ class ViewJuego (
         //btn_fav = binding.btnFav
     }
     fun renderize(juego: Juego, context: Context){
-        binding.txtviewName.setText(juego.name)
+        binding.txtviewName.setText(juego.nombre)
         binding.txtviewPlataforma.setText(juego.plataforma)
         binding.txtviewAnno.setText(juego.anno)
         binding.txtviewNota.setText(juego.nota)
         val resourceId = context.resources.getIdentifier(
-            juego.image, "drawable", context.packageName
+            juego.imagen, "drawable", context.packageName
         )
         binding.ivJuego.setImageResource(resourceId)
 

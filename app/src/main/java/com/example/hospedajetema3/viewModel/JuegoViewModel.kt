@@ -1,26 +1,48 @@
 package com.example.hospedajetema3.viewModel
 
 import AddDialogo
+import android.content.Context
+import android.util.Log
 import android.widget.ImageButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hospedajetema3.adapter.AdapterJuego
 import com.example.hospedajetema3.dialogues.DeleteDialogo
 import com.example.hospedajetema3.dialogues.UpdateDialogo
 import com.example.hospedajetema3.models.Juego
+import com.example.hospedajetema3.models.Preferencias
 import com.example.hospedajetema3.objects_models.Respository
+import com.example.hospedajetema3.retrofit.RetrofitModule
+import kotlinx.coroutines.launch
 
 class JuegoViewModel() : ViewModel() {
     private val listJuego_ : MutableLiveData<List<Juego>> = MutableLiveData()
+    private lateinit var preferencias : Preferencias
 
-    init {
+    fun init(context: Context) {
+        preferencias = Preferencias(context)
         initData()
     }
 
     private fun initData(){
-        listJuego_.value = Respository.listJuego.toMutableList()
+        viewModelScope.launch {
+            try {
+                val token = preferencias.obtenerTokenUsuario().toString()
+                val response = RetrofitModule.apiService.getJuegos(token)
+
+                if (response.isSuccessful && response.body()?.result == "ok") {
+                    listJuego_.value = response.body()?.listJuegos ?: emptyList()
+
+                } else {
+
+                }
+            } catch (e: Exception) {
+                Log.e("TrabajoViewModel", "Error", e)
+            }
+        }
     }
 
     fun getListJuegos() : LiveData<List<Juego>> {
@@ -59,7 +81,7 @@ class JuegoViewModel() : ViewModel() {
 
     fun delJuego(pos: Int, recyclerView: RecyclerView) {
         val alertDialogHelper = DeleteDialogo(recyclerView.context)
-        alertDialogHelper.deleteJuego(pos, listJuego_.value as MutableList<Juego>, listJuego_.value!![pos].name, recyclerView)
+        alertDialogHelper.deleteJuego(pos, listJuego_.value as MutableList<Juego>, listJuego_.value!![pos].nombre, recyclerView)
     }
 
     fun updateJuego(pos: Int, recyclerView: RecyclerView) {

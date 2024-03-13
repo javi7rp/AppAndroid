@@ -30,7 +30,7 @@ class UpdateDialogo(private val context: Context) {
 
         // Set the initial values from the listJuegos to the EditText fields
         val selectedJuego = listJuegos[pos]
-        nameEditText.setText(selectedJuego.name)
+        nameEditText.setText(selectedJuego.nombre)
         platEditText.setText(selectedJuego.plataforma)
         annoEditText.setText(selectedJuego.anno)
         notaEditText.setText(selectedJuego.nota)
@@ -43,7 +43,7 @@ class UpdateDialogo(private val context: Context) {
                 val newNota = notaEditText.text.toString()
 
                 if (newName.isNotBlank() && newPlat.isNotBlank() && newAnno.isNotBlank() && newNota.isNotBlank()) {
-                    listJuegos[pos] = Juego(selectedJuego.id, newName, newPlat, newAnno, newNota, selectedJuego.image)
+                    listJuegos[pos] = Juego(selectedJuego.id, newName, newPlat, newAnno, newNota, selectedJuego.imagen)
                     updateJuegoConfirm(pos, recyclerView)
                 } else {
                     // Show an error message if any field is empty

@@ -9,7 +9,4 @@ object ListaUser {
 
     fun obtenerUsuario(): ArrayList<Usuario> {return this.usuarios}
 
-    fun verificarUsuario(usuario: Usuario): Boolean{
-        return usuarios.any {it.user == usuario.user && it.pass ==usuario.pass}
-    }
 }

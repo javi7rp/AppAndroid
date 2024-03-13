@@ -25,14 +25,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.room.Room
 import com.example.hospedajetema3.GameActivity
 import com.example.hospedajetema3.R
-import com.example.hospedajetema3.room.*
 
 //import pub.devrel.easypermissions.EasyPermissions
 
 class FragmentPerfil : Fragment() {
 
     private lateinit var ivProfilePicture: ImageView
-    private lateinit var btnEditFoto: Button
 
     private lateinit var btnPreguntas: ImageButton
     private lateinit var btnInstagram: ImageButton
@@ -40,13 +38,10 @@ class FragmentPerfil : Fragment() {
 
     private lateinit var btnEditarPerfil: Button
     private lateinit var txtUserName: TextView
-    private lateinit var txtUserAge: TextView
     private lateinit var txtUserEmail: TextView
 
-    private lateinit var editTextNuevoNombre: EditText
-    private lateinit var editTextNuevaEdad: EditText
     private lateinit var editTextNuevoEmail: EditText
-    private lateinit var editTextNuevoInsta: EditText
+    private lateinit var editTextNuevoNombre: EditText
     private lateinit var btnGuardar: Button
     private lateinit var btnCancel: Button
     private lateinit var btnBorrarDatos: Button
@@ -57,14 +52,8 @@ class FragmentPerfil : Fragment() {
     var isResultadoActualizado = false
 
     private val CAMERA_REQUEST_CODE = 123
-    private val RC_CAMERA_STORAGE_PERM = 124
     private val RC_PICK_IMAGE = 125
 
-    private val perms = arrayOf(
-        android.Manifest.permission.CAMERA,
-        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        android.Manifest.permission.READ_EXTERNAL_STORAGE
-    )
 
 
     override fun onCreateView(
@@ -74,19 +63,14 @@ class FragmentPerfil : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_perfil, container, false)
 
-
-
         btnPreguntas = view.findViewById(R.id.btnPreguntas)
         txtRecordPreguntas = view.findViewById(R.id.recordPreguntas)
         btnInstagram = view.findViewById(R.id.btnInstagram)
         txtInstaUser = view.findViewById(R.id.txtInstaUser)
         txtUserName = view.findViewById(R.id.txtUserName)
-        txtUserAge = view.findViewById(R.id.txtUserAge)
         txtUserEmail = view.findViewById(R.id.txtUserEmail)
 
         ivProfilePicture = view.findViewById(R.id.ivProfilePicture)
-
-        updateUIWithUserData()
 
 
         // Configura el listener para el clic del botón
@@ -114,39 +98,11 @@ class FragmentPerfil : Fragment() {
             mostrarDialogoEditarPerfil()
         }
 
-        btnEditFoto = view.findViewById(R.id.btnEditFoto)
-
-        btnEditFoto.setOnClickListener {
-            checkCameraAndStoragePermissions()
-        }
-
         btnPreguntas.setOnClickListener {
             val intent = Intent(requireContext(), GameActivity::class.java)
             startActivity(intent)
         }
         return view
-    }
-
-    private fun updateUIWithUserData() {
-        /*
-        // Obtiene el nombre de usuario y la contraseña del usuario actual
-        val user: String = sharedPreferences.getString("USER", "") ?: ""
-        val password: String = sharedPreferences.getString("PASSWORD", "") ?: ""
-
-        // Obtiene los datos del usuario desde la base de datos
-        val currentUser = db.userDao().getUser(user, password)
-
-        // Verifica si el usuario no es nulo antes de actualizar la interfaz de usuario
-        currentUser?.let {
-            txtUserName.text = currentUser.username
-            txtUserAge.text = currentUser.edad.toString()
-            txtUserEmail.text = currentUser.email
-            txtInstaUser.text = currentUser.instagram
-            val bitmap = currentUser.image?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
-            ivProfilePicture.setImageBitmap(bitmap)
-        }
-
-         */
     }
 
     private fun mostrarDialogoEditarPerfil() {
@@ -155,9 +111,7 @@ class FragmentPerfil : Fragment() {
 
         // Encuentra las vistas en el diseño del diálogo
         editTextNuevoNombre = dialogView.findViewById(R.id.editTextNuevoNombre)
-        editTextNuevaEdad = dialogView.findViewById(R.id.editTextNuevaEdad)
         editTextNuevoEmail = dialogView.findViewById(R.id.editTextNuevoEmail)
-        editTextNuevoInsta = dialogView.findViewById(R.id.editTextInstaUser)
         btnGuardar = dialogView.findViewById(R.id.btnGuardar)
         btnCancel = dialogView.findViewById(R.id.btnCancel)
         btnBorrarDatos = dialogView.findViewById(R.id.btnBorrarDatos)
@@ -165,26 +119,20 @@ class FragmentPerfil : Fragment() {
 
 
         editTextNuevoNombre.setText(txtUserName.text)
-        editTextNuevaEdad.setText(txtUserAge.text)
         editTextNuevoEmail.setText(txtUserEmail.text)
-        editTextNuevoInsta.setText(txtInstaUser.text)
 
         btnBorrarDatos.setOnClickListener {
             editTextNuevoNombre.setText("")
-            editTextNuevaEdad.setText("")
             editTextNuevoEmail.setText("")
-            editTextNuevoInsta.setText("")
         }
 
         // Configura el diálogo
         btnGuardar.setOnClickListener{
                 val nuevoNombre = editTextNuevoNombre.text.toString()
-                val nuevaEdad = editTextNuevaEdad.text.toString()
                 val nuevoEmail = editTextNuevoEmail.text.toString()
-                val nuevoInsta = editTextNuevoInsta.text.toString()
 
 
-                actualizarDatosPerfil(nuevoNombre, nuevaEdad, nuevoEmail, nuevoInsta)
+                //actualizarDatosPerfil(nuevoNombre, , nuevoEmail, nuevoInsta)
             dialogView.dismiss()
             }
 
@@ -199,25 +147,12 @@ class FragmentPerfil : Fragment() {
         // Aquí puedes actualizar las vistas con los nuevos datos
         // Por ejemplo, puedes actualizar los TextViews con los nuevos valores
         txtUserName.text = nuevoNombre
-        txtUserAge.text = nuevaEdad
         txtUserEmail.text = nuevoEmail
         txtInstaUser.text = nuevoInsta
     }
-    fun actualizarResultado(contAciertos: Int) {
-        if (!isResultadoActualizado){
-            txtRecordPreguntas.visibility = View.VISIBLE
-            txtRecordPreguntas.setText("PRIMER INTENTO: $contAciertos/10")
-            isResultadoActualizado = true
-        }
-
-    }
 
 
 
-    private fun openCamera() {
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -241,46 +176,15 @@ class FragmentPerfil : Fragment() {
             }
         }
     }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        //EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    private fun openCamera() {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
     }
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, RC_PICK_IMAGE)
     }
-
-    private fun checkCameraAndStoragePermissions() {
-        val perms = arrayOf(
-            android.Manifest.permission.CAMERA,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-/*
-        if (EasyPermissions.hasPermissions(requireContext(), *perms)) {
-            // Tienes permisos, abre la cámara
-            showImageSourceDialog()
-            Log.d("IIIIIIIIIIIII","abre dialogo")
-        } else {
-            // No tienes permisos, solicita permisos
-            Log.d("IIIIIIIIIIIII","no tiene permisos")
-            requestCameraAndStoragePermissions()
-        }
-
- */
-    }
-
-    private fun requestCameraAndStoragePermissions() {
-        Log.d("IIIIIII", "Solicitando permisos de cámara y almacenamiento...")
-        requestPermissions(perms, RC_CAMERA_STORAGE_PERM)
-    }
-
     private fun showImageSourceDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Selecciona una fuente de imagen")

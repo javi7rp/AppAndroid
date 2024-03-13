@@ -51,7 +51,7 @@ class AddDialogo(private val context: Context) {
                 newJuego[3] = nota.text.toString()
                 newJuego[4] = spinner.selectedItem.toString()
                 if (newJuego[0] != "" && newJuego[1] != "" && newJuego[2] != "" && newJuego[3] != "" && newJuego[4] != "") {
-                    val updatedJuego = Juego(generarId(), newJuego[0]!!, newJuego[1]!!, newJuego[2]!!, newJuego[3]!!, newJuego[4]!!)
+                    val updatedJuego = Juego(generarId(), newJuego[0]!!, newJuego[1]!!, newJuego[2]!!, newJuego[3]!!,newJuego[4]!!)
                     listJuegos.add(updatedJuego)
                     val newPos = (listJuegos.size - 1)
                     addJuegoConfirm(newPos, recyclerView)

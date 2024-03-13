@@ -181,7 +181,6 @@ class GameActivity : AppCompatActivity(){
             val fragmentPerfil = supportFragmentManager.findFragmentById(R.id.fragment_container) as? FragmentPerfil
             fragmentPerfil?.let {
                 if (!it.isResultadoActualizado) {
-                    it.actualizarResultado(contAciertos)
                     Log.d("IIIIIII", "Encuentra el fragmento")
                 }else {
                     Log.d("IIIIIII", "Fragmento encontrado, pero el resultado ya está actualizado")
