@@ -31,14 +31,6 @@ class AddDialogo(private val context: Context) {
         val nota = view.findViewById<EditText>(R.id.editTextNota)
         val spinner = view.findViewById<Spinner>(R.id.spinnerImagen)
 
-        val spinnerOption = arrayOf(
-            "accion", "rpg", "multijugador", "miedo", "deportes",
-            "estrategia", "aventura", "mundo_abierto", "misterio", "desconocido"
-        )
-
-        val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, spinnerOption)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
         builder.setView(view)
 
             .setPositiveButton("Aceptar") { dialog, which ->
