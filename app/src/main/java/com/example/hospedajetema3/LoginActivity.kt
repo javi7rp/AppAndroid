@@ -165,6 +165,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hospedajetema3.data.DatabaseUsuarioEntity
 import com.example.hospedajetema3.data.UsuarioEntityDao
+import com.example.hospedajetema3.fragments.FragmentInicio
 import com.example.hospedajetema3.models.Preferencias
 import com.example.hospedajetema3.retrofit.ApiService
 import com.example.hospedajetema3.retrofit.RequestLoginUser
@@ -227,7 +228,7 @@ class LoginActivity : AppCompatActivity() {
                     withContext(Dispatchers.Main) {
                         //preferencias.guardarUsuarioToken(response.body()!!.token);
                         Toast.makeText(applicationContext, "token: " + response.body()!!.token, Toast.LENGTH_LONG).show()
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        val intent = Intent(this@LoginActivity, FragmentInicio::class.java)
                         startActivity(intent)
                         finish()
                     }

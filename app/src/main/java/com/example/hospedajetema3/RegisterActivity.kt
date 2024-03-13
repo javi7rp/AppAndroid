@@ -39,7 +39,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var etEmail: EditText
     private lateinit var etContraseña: EditText
     private lateinit var etNombre: EditText
-    private lateinit var btnSeleccionarImagen: Button
     private lateinit var imageView: ImageView
     private lateinit var btnCancelar: Button
     private lateinit var btnRegistrar: Button
@@ -67,9 +66,6 @@ class RegisterActivity : AppCompatActivity() {
         fotoButton = findViewById(R.id.fotoBoton)
         cargarFotoButton = findViewById(R.id.cargarFoto)
 
-        btnSeleccionarImagen.setOnClickListener {
-            //showImageSourceDialog()
-        }
 
         fotoButton.setOnClickListener {
             val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)

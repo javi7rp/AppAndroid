@@ -40,7 +40,7 @@ class JuegoViewModel() : ViewModel() {
 
                 }
             } catch (e: Exception) {
-                Log.e("TrabajoViewModel", "Error", e)
+                Log.e("JuegoViewModel", "Error", e)
             }
         }
     }
